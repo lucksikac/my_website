@@ -37,27 +37,27 @@ disqusShortname = ""
 
   # Navigation Section
   [params.navigation]
-    title = "Lucksika's blog about everything"
+    title = "Lucksika's"
     #subtitle = ""
     menu = "Menu"
     # Optional logo as brand stored in img/
     # logo = "logo.png"
 
     [[params.navigation.links]]
-      name = "R Projects"
+      name = "Main Page"
       url = "#"
 
     [[params.navigation.links]]
-      name = "More About Me"
+      name = "My R Projects"
       url = "blogs"
 
     [[params.navigation.links]]
-      name = "My Photography"
+      name = "The World Through My Lens: Greece"
       url = "blogs/ipsum"
 
-    #[[params.navigation.links]]
-      #name = ""
-      #url = "elements.html"
+    [[params.navigation.links]]
+      name = "The World Through My Lens: Similan"
+      url = "elements.html"
 
     # Add custom links here by uncommenting code below. To remove links just delete
     # the [[params.navigation.links]] map associated with that link. Copy and paste
@@ -67,14 +67,14 @@ disqusShortname = ""
     #    url = "UrlOfLink"
 
     # Button Style 1
-    [[params.navigation.button1]]
-      name = "Get Started"
-      url = "blogs"
+    #[[params.navigation.button1]]
+    #  name = "coding projects overview"
+     # url = "blogs"
 
     # Button Style 2
-    [[params.navigation.button2]]
-      name = "Log In"
-      url = "#"
+   # [[params.navigation.button2]]
+     # name = "Log In"
+     # url = "#"
 
 
   # Banner section
@@ -82,7 +82,7 @@ disqusShortname = ""
     # To change the background image on the homepage banner, replace 'banner.jpg' in
     # the 'static/img' folder.
     title = "She Leaves a Little Sparkle Wherever She Goes ◡̈"
-    #subtitle = ""
+    subtitle = "a collection of my coding projects and a hint of my interests"
     buttonText = "Get Started"
 
 
@@ -93,8 +93,8 @@ disqusShortname = ""
     # Display your showcases here.
     
     [[params.tiles.showcase]]
-      title = "NY Times mask survey"
-      subtitle = "Ipsum Dolor Sit Amet"
+      title = "Mask acceptance survey in the United States"
+      subtitle = "Github Source for Data"
       image = "pic01.jpg"
       url = "blogs/blog5"
 
@@ -111,22 +111,22 @@ disqusShortname = ""
       url = "blogs/magna"
 
     [[params.tiles.showcase]]
-      title = "Ipsum"
-      subtitle = "Nisl Sed Aliquam"
-      image = "pic04.jpg"
+      title = "The World Through My Lens"
+      subtitle = "Diving at Corfu, Greece"
+      image = "pic10.jpg"
       url = "blogs/ipsum"
 
-    [[params.tiles.showcase]]
-      title = "Consequat"
-      subtitle = "Ipsum Dolor Sit Amet"
-      image = "pic05.jpg"
-      url = "blogs/ipsum"
+    #[[params.tiles.showcase]]
+     # title = "Consequat"
+     # subtitle = "Ipsum Dolor Sit Amet"
+     # image = "pic05.jpg"
+     # url = "blogs/ipsum"
 
-    [[params.tiles.showcase]]
-      title = "Etiam"
-      subtitle = "Feugiat Amet Tempus"
-      image = "pic06.jpg"
-      url = "blogs/ipsum"
+    #[[params.tiles.showcase]]
+      #title = "Etiam"
+      #subtitle = "Feugiat Amet Tempus"
+      #image = "pic06.jpg"
+     # url = "blogs/ipsum"
     # You can make more showcases by copy and pasting the code above
 
   [params.blog]
@@ -139,21 +139,17 @@ disqusShortname = ""
   # Section Type Two
   [params.two]
     enable = true
-    title = "Massa libero"
-    subtitle = """Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. 
-    Mauris aliquet magna magna sed nunc rhoncus pharetra. 
-    Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. 
-    Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero.
-    Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus."""
+    title = "Applied Statistics with R (AM01)"
+    subtitle = "This is a course run by Kostis Christodoulou where we have been using R and tidyverse to learn from existing data. Through this course, I have been able to learn about the introduction to data science, statistical inference and data modelling through coding. By exploring the data and understanding the variables, I am able to better demonstrate tangible views for data visualisation so that audiences with different backgrounds are able to understand it as well. By pressing the 'GET STARTED' button, you will dive into what I have learnt so far in this course and some of my proudest 'coding projects'."
     buttonText = "Get Started"
     url = "blogs"
 
 
   # Contact section
   [params.contact]
-    enable = true
-    buttonSend = "Send message"
-    buttonClear = "Clear"
+    #enable = true
+   # buttonSend = "Send message"
+    #buttonClear = "Clear"
 
     # Since this template is static, the contact form uses www.formspree.io as a
     # proxy. The form makes a POST request to their servers to send the actual
@@ -173,50 +169,50 @@ disqusShortname = ""
     # by copying the corresponding map with frontmatter code.
     [[params.contact.email]]
     title = "Email"
-    email = "example@domain.com"
+    email = "p.chaikul.mam2021@london.edu"
 
     [[params.contact.phone]]
     title = "Phone"
-    phone = "(000) 000-0000 x1234"
+    phone = "(+44) 077 4726 7919 "
 
     [[params.contact.address]]
-    title = "Address"
-    street = "Street"
-    city = "City, ST 00000"
-    country = "Country"
+    title = "London Business School"
+    street = "Regent's Park"
+    city = " London NW1 4SA"
+    country = "United Kingdom"
 
   # Footer section
   [params.footer]
     enable = true
-    copyright = " Name"
+    copyright = " lucksika.chaikul"
 
     # Uses font awesome icons
-    [[params.footer.social]]
-      icon = "fa-twitter"
-      url= "https://www.twitter.com"
-      label = "Twitter"
+    #[[params.footer.social]]
+     # icon = "fa-twitter"
+     # url= "https://www.twitter.com"
+      #label = "Twitter"
 
     [[params.footer.social]]
       icon = "fa-facebook"
-      url= "https://www.facebook.com"
+      url= "https://www.facebook.com/proud.chaikul/"
       label = "Facebook"
 
     [[params.footer.social]]
       icon = "fa-instagram"
-      url= "https://www.instagram.com"
+      url= "https://www.instagram.com/prouddchaikul/"
       label = "Instagram"
     
     [[params.footer.social]]
       icon = "fa-github"
-      url= "https://www.github.com"
+      url= "https://github.com/lucksikac/my_website"
       label = "GitHub"
 
     [[params.footer.social]]
       icon = "fa-linkedin"
-      url= "https://www.linkedin.com"
+      url= "https://www.linkedin.com/in/proud-lucksika-chaikul-099baa192/"
       label = "LinkedIn"
 
-    [[params.footer.quicklinks]]
-      text = "Design: "
-      url= "https://www.html5up.net"
-      alt = "HTML5 UP"
+    #[[params.footer.quicklinks]]
+   #   text = "Design: "
+    # url= "https://www.html5up.net"
+    #  alt = "HTML5 UP"

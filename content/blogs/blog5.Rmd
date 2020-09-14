@@ -3,12 +3,12 @@ categories:
 - ""
 - ""
 date: "2020-09-07"
-description: Is mask acceptance high in the US? NYT Survey analysis
+description: Determining Mask Acceptance in the United States? (NYT Survey Analysis)
 draft: false
 image: pic07.jpg
 keywords: ""
 slug: blog5
-title: Mask Acceptance
+title: Mask Acceptance in the United States
 ---
 
 
