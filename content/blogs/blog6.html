@@ -1,0 +1,129 @@
+---
+categories:
+- ""
+- ""
+date: "2020-09-07"
+description: Do highschool grades predict college success?
+draft: false
+image: pic20.jpg
+keywords: ""
+slug: blog6
+title: SAT scores vs. First Year College scores
+---
+
+
+
+<div id="are-sat-scores-a-good-indication-of-success-in-college" class="section level1">
+<h1>Are SAT scores a good indication of success in college</h1>
+<pre class="r"><code>library(tidyverse)
+library(moderndive)
+library(here)
+library(GGally)
+library(broom)
+
+# I pre-wrangled and pre-manipulated this data for you
+# so you only have to load it here
+sat_gpa &lt;- read_csv(here::here(&quot;data&quot;, &quot;sat_gpa.csv&quot;))</code></pre>
+<p>How well do SAT scores correlate with freshman GPA and also when considering sex?</p>
+<pre class="r"><code>#Using the GGally package to build a mix of interesting and useful plots and correlations 
+sat_gpa %&gt;% 
+  
+  #choosing the data of interest; highschool sat and gpa score and gpa of \nfirst year in college. We can also check the difference between men and women for the performance in the aforementioned areas. Hence, these variables are the one of interest.
+  
+ select(sex, sat_total, gpa_hs, gpa_fy) %&gt;% 
+  
+  #ggally::ggpairs package will show us the all the correlations (graphically and numerically) between the data sets and the density plot as well
+   GGally::ggpairs(aes(colour=sex, shape=sex),
+                  alpha = 0.4) + theme_minimal()</code></pre>
+<p><img src="/blogs/blog6_files/figure-html/sat-gpa-correlation-1.png" width="672" /></p>
+<p>We are able to see that the gpa for high school is a better indication of the first year college gpa/performance when compared to the sat score. The former shows a correlation of 0.543 whilst the latter has a correlation of 0.460. When we digest the information and compare for gender, female portrays a stronger relationship between high school gpa and first year gpa than men. There is also a stronger difference in correlation for female.</p>
+<div id="calculating-the-confidence-interval-for-sat-scores-between-genders" class="section level2">
+<h2>Calculating the confidence interval for SAT scores between genders</h2>
+<pre class="r"><code>sat_gpa %&gt;% 
+  group_by(sex) %&gt;% 
+  summarise(
+    mean_sat = mean(sat_total, na.rm = TRUE),
+    sd_sat = sd(sat_total, na.rm= TRUE),
+    count = n(), 
+    se_sat = sd_sat/ sqrt(count),
+    t_critical = qt(0.975, count -1),
+    lower = mean_sat - t_critical*se_sat,
+    upper = mean_sat + t_critical*se_sat,
+  )</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 2 x 8
+##   sex    mean_sat sd_sat count se_sat t_critical lower upper
+##   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Female     101.   14.2   484  0.647       1.96  99.5  102.
+## 2 Male       106.   13.9   516  0.614       1.96 105.   107.</code></pre>
+<p>The confidence intervals in this case does not overlap. This means that 95% confident that of the average female SAT score is higher than the average male sat scores.</p>
+<p>Regression calculation of GPA first year on SAT scores</p>
+<pre class="r"><code>model_sat_gpa &lt;- lm(gpa_fy ~ sat_total, data = sat_gpa)
+
+model_sat_gpa %&gt;% tidy(conf.int=TRUE)</code></pre>
+<pre><code>## # A tibble: 2 x 7
+##   term        estimate std.error statistic  p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)  0.00193   0.152      0.0127 9.90e- 1  -0.296     0.300 
+## 2 sat_total    0.0239    0.00146   16.4    1.39e-53   0.0210    0.0267</code></pre>
+<pre class="r"><code>model_sat_gpa %&gt;% glance()</code></pre>
+<pre><code>## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.212         0.211 0.658      268. 1.39e-53     1  -999. 2005. 2019.
+## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+<p>The SAT scores is significant because the t-stat is more than 2 or the p-value is less than 5%. This implies that the slope of the regression line is different from zero. However, the SAT scores only explain 21% of the first year college GPA dataset.</p>
+<p>Breaking down SAT scores into SATmath and SAT verbal</p>
+<pre class="r"><code>model_sat2 &lt;- lm(gpa_fy ~ sat_math + sat_verbal, data = sat_gpa)
+
+model_sat2 %&gt;% tidy(conf.int=TRUE)</code></pre>
+<pre><code>## # A tibble: 3 x 7
+##   term        estimate std.error statistic  p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)  0.00737   0.152      0.0484 9.61e- 1  -0.291     0.306 
+## 2 sat_math     0.0224    0.00279    8.04   2.58e-15   0.0169    0.0279
+## 3 sat_verbal   0.0254    0.00286    8.88   3.07e-18   0.0198    0.0310</code></pre>
+<pre class="r"><code>model_sat2 %&gt;% glance()</code></pre>
+<pre><code>## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.212         0.211 0.658      134. 2.36e-52     2  -999. 2006. 2026.
+## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+<p>Both math and verbal are significant by looking at the t-statistic/p-value. However, the SAT verbal score is higher than the SAT math score. The R^2 is 21%.</p>
+<p>Looking at the influence of sex and SAT scores on gpa of final year</p>
+<pre class="r"><code>model4 &lt;- lm(gpa_fy ~ sat_total + sex , data = sat_gpa)
+
+model4 %&gt;% tidy(conf.int=TRUE)</code></pre>
+<pre><code>## # A tibble: 3 x 7
+##   term        estimate std.error statistic  p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)  -0.0269   0.149      -0.181 8.57e- 1  -0.319     0.265 
+## 2 sat_total     0.0255   0.00145    17.6   1.14e-60   0.0227    0.0284
+## 3 sexMale      -0.274    0.0414     -6.62  6.05e-11  -0.355    -0.193</code></pre>
+<pre class="r"><code>model4 %&gt;% glance()</code></pre>
+<pre><code>## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.245         0.243 0.644      162. 1.44e-61     2  -978. 1964. 1983.
+## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+<p>Both variables are significant: SAT total and gender. On average, ceterus parabus, male will get a 0.27 score lower than women in the first year of college.</p>
+<p>Effect of SAT scores on college GPA change when controlling for both high school GPA and sex?</p>
+<pre class="r"><code>model5 &lt;- lm(gpa_fy ~ sat_total + sex + gpa_hs, data = sat_gpa)
+
+model5 %&gt;% tidy(conf.int=TRUE)</code></pre>
+<pre><code>## # A tibble: 4 x 7
+##   term        estimate std.error statistic  p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)  -0.836    0.148       -5.63 2.35e- 8  -1.13     -0.544 
+## 2 sat_total     0.0158   0.00150     10.5  9.72e-25   0.0129    0.0188
+## 3 sexMale      -0.143    0.0391      -3.66 2.66e- 4  -0.220    -0.0664
+## 4 gpa_hs        0.545    0.0394      13.8  6.61e-40   0.467     0.622</code></pre>
+<pre class="r"><code>model5 %&gt;% glance()</code></pre>
+<pre><code>## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.367         0.365 0.590      192. 2.67e-98     3  -890. 1790. 1815.
+## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+<p>All explanatory variables are significant. On average, guys get a lower first year GPA of 0.14 than women. Compared from the previous factors, the difference of 0.13 score has been explained by the other factors included in this new model. Also the adjusted R^2 has improved.</p>
+</div>
+</div>

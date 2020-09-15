@@ -2,11 +2,15 @@
 categories:
 - ""
 - ""
-date: "2017-10-31T22:26:13-05:00"
-description: Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis tempus.
+date: "2020-09-16"
+description: My Diving Experience in Thailand
 draft: false
-image: pic08.jpg
+image: pic01.jpg
 keywords: ""
 slug: tempus
-title: Tempus
+title: The World Through My Lens, Koh Tao, Thailand
 ---
+
+The best diving site so far. Definitely recommend to everyone. You will be able to see wrecks, fish and all sorts of unimaginable things. Exclusive marine life and crystal clear fish. This will make you want for more.
+
+-Summer 2019-

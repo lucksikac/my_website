@@ -56,7 +56,7 @@
             
                 <li><a href="/blogs/ipsum">The World Through My Lens: Greece</a></li>
             
-                <li><a href="/elements.html">The World Through My Lens: Similan</a></li>
+                <li><a href="/blogs/tempus">The World Through My Lens: Thailand</a></li>
             
 
         </ul>
@@ -81,17 +81,18 @@
                             
 
 
-<div id="nyt-mask-use" class="section level2">
-<h2>NYT mask use</h2>
+<div id="using-a-choropleth-plot-to-show-the-degree-of-mask-acceptance-in-the-us" class="section level2">
+<h2>Using a choropleth plot to show the degree of mask acceptance in the US</h2>
 <p>Github source for data <a href="https://github.com/nytimes/covid-19-data/tree/master/mask-use" class="uri">https://github.com/nytimes/covid-19-data/tree/master/mask-use</a></p>
 </div>
 <div id="getting-the-data" class="section level2">
 <h2>Getting the data</h2>
 <pre class="r"><code>#Source for data 
 url &lt;- &quot;https://github.com/nytimes/covid-19-data/raw/master/mask-use/mask-use-by-county.csv&quot;
-
+#naming the data
 nyt_mask_survey &lt;- read_csv(url)
 
+#cleaning the data and setting up new variables to make the data more understandable
 nyt_mask_survey &lt;- nyt_mask_survey %&gt;%
   clean_names() %&gt;% 
   mutate(
@@ -113,8 +114,8 @@ glimpse(nyt_mask_survey)</code></pre>
 ## $ mostly_no  &lt;dbl&gt; 0.127, 0.142, 0.188, 0.054, 0.167, 0.071, 0.155, 0.260, 0.…
 ## $ delta      &lt;dbl&gt; 0.612, 0.617, 0.504, 0.796, 0.486, 0.715, 0.433, 0.349, 0.…</code></pre>
 </div>
-<div id="choropleth-maps" class="section level2">
-<h2>Choropleth maps</h2>
+<div id="creating-a-maps-makes-the-data-more-digestable-and-understandable" class="section level2">
+<h2>Creating a maps, makes the data more digestable and understandable</h2>
 <p>The FIPS code is a federal code that numbers states and territories of the US. It extends to the county level with an additional four digits, so every county in the US has a unique six-digit identifier, where the first two digits represent the state.</p>
 <p>We will be using Kieran Healy’s <code>socviz</code> package which among other things contains <code>county_map</code> and <code>county_data</code></p>
 <pre class="r"><code># America’s choropleths; use county_map that has all polygons 
@@ -122,44 +123,44 @@ glimpse(nyt_mask_survey)</code></pre>
 # The id field is the FIPS code for the county
 county_map %&gt;% 
   sample_n(5)</code></pre>
-<pre><code>##       long      lat  order  hole piece            group    id
-## 1   261532 -1235601 134575 FALSE     1 0500000US40085.1 40085
-## 2  1033204 -1086356  98923 FALSE     1 0500000US28139.1 28139
-## 3  1332943 -1112277    711 FALSE     1 0500000US01015.1 01015
-## 4   925959  -942968 103325 FALSE     1 0500000US29155.1 29155
-## 5 -1300093 -1084394  17880 FALSE     1 0500000US04012.1 04012</code></pre>
+<pre><code>##      long     lat  order  hole piece            group    id
+## 1 2108293   34107 118279 FALSE     1 0500000US36021.1 36021
+## 2  567027   81553 189702 FALSE     1 0500000US55095.1 55095
+## 3 1978262 -482153 172951 FALSE     1 0500000US51099.1 51099
+## 4  207402  427371 128541 FALSE     1 0500000US38067.1 38067
+## 5 2117624 -631614 122693 FALSE     1 0500000US37053.1 37053</code></pre>
 <pre class="r"><code>county_data %&gt;%
     sample_n(5)</code></pre>
-<pre><code>##      id           name state census_region      pop_dens   pop_dens4
-## 1 12075    Levy County    FL         South [   10,   50) [ 17,   45)
-## 2 53033    King County    WA          West [  500, 1000) [118,71672]
-## 3 39069   Henry County    OH       Midwest [   50,  100) [ 45,  118)
-## 4 51057   Essex County    VA         South [   10,   50) [ 17,   45)
-## 5 32021 Mineral County    NV          West [    0,   10) [  0,   17)
-##     pop_dens6   pct_black     pop female white black travel_time land_area
-## 1 [ 25,   45) [ 5.0,10.0)   39613   50.8  87.3   9.7        28.1      1118
-## 2 [215,71672] [ 5.0,10.0) 2079967   50.0  70.8   6.6        27.0      2116
-## 3 [ 45,   82) [ 0.0, 2.0)   27937   50.4  97.5   0.7        20.8       416
-## 4 [ 25,   45) [25.0,50.0)   11103   52.8  57.1  38.5        32.6       257
-## 5 [  0,    9) [ 2.0, 5.0)    4500   50.8  72.2   4.6        12.6      3753
+<pre><code>##      id             name state census_region      pop_dens   pop_dens4
+## 1 24017   Charles County    MD         South [  100,  500) [118,71672]
+## 2 55078 Menominee County    WI       Midwest [   10,   50) [  0,   17)
+## 3 37137   Pamlico County    NC         South [   10,   50) [ 17,   45)
+## 4 48055  Caldwell County    TX         South [   50,  100) [ 45,  118)
+## 5 21141     Logan County    KY         South [   10,   50) [ 45,  118)
+##     pop_dens6   pct_black    pop female white black travel_time land_area
+## 1 [215,71672] [25.0,50.0) 154747   51.7  49.1  43.1        42.8       458
+## 2 [  9,   25) [ 0.0, 2.0)   4522   50.9  12.2   0.8        18.1       358
+## 3 [ 25,   45) [15.0,25.0)  12948   48.8  77.0  20.3        24.5       337
+## 4 [ 45,   82) [ 5.0,10.0)  39810   49.5  88.7   7.1        31.4       545
+## 5 [ 45,   82) [ 5.0,10.0)  26867   51.0  90.7   6.8        22.7       552
 ##   hh_income su_gun4 su_gun6  fips votes_dem_2016 votes_gop_2016
-## 1     34348 [11,54] [12,54] 12075           5091          13758
-## 2     71811 [ 0, 5) [ 4, 7) 53033         657149         197781
-## 3     49439 [ 0, 5) [ 4, 7) 39069           3690           9136
-## 4     44885 [11,54] [12,54] 51057           2541           2657
-## 5     35017 [11,54] [12,54] 32021            637           1179
+## 1     93160 [ 5, 8) [ 4, 7) 24017          46063          24163
+## 2     33333 [ 0, 5) [ 0, 4) 55078           1003            269
+## 3     43853 [ 8,11) [10,12) 37137           2427           4225
+## 4     44152 [ 5, 8) [ 7, 8) 48055           4663           6516
+## 5     36590 [11,54] [10,12) 21141           2755           7778
 ##   total_votes_2016 per_dem_2016 per_gop_2016 diff_2016 per_dem_2012
-## 1            19367        0.263        0.710      8667        0.333
-## 2           910823        0.721        0.217    459368        0.688
-## 3            13671        0.270        0.668      5446        0.396
-## 4             5354        0.475        0.496       116        0.531
-## 5             1997        0.319        0.590       542        0.424
+## 1            72480        0.636        0.333     21900        0.650
+## 2             1279        0.784        0.210       734        0.866
+## 3             6772        0.358        0.624      1798        0.392
+## 4            11709        0.398        0.556      1853        0.433
+## 5            10896        0.253        0.714      5023        0.330
 ##   per_gop_2012 diff_2012  winner partywinner16 winner12 partywinner12 flipped
-## 1        0.655      5934   Trump    Republican   Romney    Republican      No
-## 2        0.289    347706 Clinton      Democrat    Obama      Democrat      No
-## 3        0.582      2598   Trump    Republican   Romney    Republican      No
-## 4        0.459       407   Trump    Republican    Obama      Democrat     Yes
-## 5        0.531       217   Trump    Republican   Romney    Republican      No</code></pre>
+## 1        0.337     21984 Clinton      Democrat    Obama      Democrat      No
+## 2        0.130      1012 Clinton      Democrat    Obama      Democrat      No
+## 3        0.601      1400   Trump    Republican   Romney    Republican      No
+## 4        0.544      1231   Trump    Republican   Romney    Republican      No
+## 5        0.656      3430   Trump    Republican   Romney    Republican      No</code></pre>
 <pre class="r"><code>glimpse(county_data)</code></pre>
 <pre><code>## Rows: 3,195
 ## Columns: 32
@@ -209,22 +210,25 @@ glimpse(county_map)</code></pre>
 ## $ id    &lt;chr&gt; &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, &quot;01001&quot;, …</code></pre>
 <pre class="r"><code># ... but to create a map, we translate these 3195 counties to 191,382 polygons!</code></pre>
 </div>
-<div id="joing-the-files" class="section level2">
-<h2>Joing the files</h2>
-<p>We have three files</p>
+<div id="combining-the-files" class="section level2">
+<h2>Combining the files</h2>
+<p>So far, we have three files</p>
 <ol style="list-style-type: decimal">
 <li><code>nyt_mask_survey</code>, our NYT survey data,</li>
 <li><code>county_map</code> that has all polygons that define a county</li>
 <li><code>county_data</code> with demographics/election data.</li>
 </ol>
+<p>Later on we will be combing the data so that we will be able to colour down each demographics of the United States (by using the on 2. county_map and 3. county_data) depending on their face mask preference. This is called the choropleth plot/map.</p>
 <pre class="r"><code>county_full &lt;- left_join(county_map, county_data, by = &quot;id&quot;)
 
 county_masks_full &lt;- left_join(county_full, nyt_mask_survey, 
                                 by = c(&quot;id&quot;=&quot;countyfp&quot;))</code></pre>
 </div>
-<div id="building-our-choropleth-plot" class="section level2">
-<h2>Building our choropleth plot</h2>
-<pre class="r"><code>p &lt;- ggplot(data = county_masks_full,
+<div id="building-the-choropleth-plot" class="section level2">
+<h2>Building the choropleth plot</h2>
+<pre class="r"><code>#building the plot by using the ggplot, where we have coloured the difference preference with a gradient colour so that it makes everything more readable. 
+
+p &lt;- ggplot(data = county_masks_full,
             mapping = aes(x = long, y = lat,
                           fill = delta, 
                           group = group))
@@ -232,8 +236,6 @@ county_masks_full &lt;- left_join(county_full, nyt_mask_survey,
 p1 &lt;- p + 
   geom_polygon(color = &quot;gray90&quot;, size = 0.05) + 
   coord_equal()
-
-
 
 p2 &lt;- p1 + 
   scale_fill_gradient(low = &#39;#ffffcc&#39;, high= &#39;#006837&#39;)

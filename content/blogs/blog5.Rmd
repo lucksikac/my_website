@@ -42,7 +42,7 @@ library(socviz)
 ```
 
 
-## NYT mask use
+## Using a choropleth plot to show the degree of mask acceptance in the US
 
 Github source for data https://github.com/nytimes/covid-19-data/tree/master/mask-use
 
@@ -52,9 +52,10 @@ Github source for data https://github.com/nytimes/covid-19-data/tree/master/mask
 ```{r, read_data}
 #Source for data 
 url <- "https://github.com/nytimes/covid-19-data/raw/master/mask-use/mask-use-by-county.csv"
-
+#naming the data
 nyt_mask_survey <- read_csv(url)
 
+#cleaning the data and setting up new variables to make the data more understandable
 nyt_mask_survey <- nyt_mask_survey %>%
   clean_names() %>% 
   mutate(
@@ -66,7 +67,7 @@ nyt_mask_survey <- nyt_mask_survey %>%
 glimpse(nyt_mask_survey)
 ```
 
-## Choropleth maps
+## Creating a maps, makes the data more digestable and understandable
 
 The FIPS code is a federal code that numbers states and territories of the US. It extends to the county level with an additional four digits, so every county in the US has a unique six-digit identifier, where the first two digits represent the state. 
 
@@ -89,23 +90,19 @@ glimpse(county_data)
 glimpse(county_map)
 # ... but to create a map, we translate these 3195 counties to 191,382 polygons!
 
-
-
-
 ```
 
-## Joing the files
+## Combining the files
 
-We have three files
+So far, we have three files
 
 1. `nyt_mask_survey`, our NYT survey data, 
 1. `county_map` that has all polygons that define a county
 1. `county_data` with demographics/election data.
 
-
+Later on we will be combing the data so that we will be able to colour down each demographics of the United States (by using the on 2. county_map and 3. county_data) depending on their face mask preference. This is called the choropleth plot/map.
 
 ```{r, join_data}
-
 
 county_full <- left_join(county_map, county_data, by = "id")
 
@@ -113,9 +110,10 @@ county_masks_full <- left_join(county_full, nyt_mask_survey,
                                 by = c("id"="countyfp"))
 ```
 
-## Building our choropleth plot
+## Building the choropleth plot
 
 ```{r, plot_choropleths}
+#building the plot by using the ggplot, where we have coloured the difference preference with a gradient colour so that it makes everything more readable. 
 
 p <- ggplot(data = county_masks_full,
             mapping = aes(x = long, y = lat,
@@ -125,8 +123,6 @@ p <- ggplot(data = county_masks_full,
 p1 <- p + 
   geom_polygon(color = "gray90", size = 0.05) + 
   coord_equal()
-
-
 
 p2 <- p1 + 
   scale_fill_gradient(low = '#ffffcc', high= '#006837')

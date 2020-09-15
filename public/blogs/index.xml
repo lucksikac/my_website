@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Projects and Photography on Portfolio website for Lucksika Chaikul</title>
+    <title>Projects and Lifestyle on Portfolio website for Lucksika Chaikul</title>
     <link>/blogs/</link>
-    <description>Recent content in Projects and Photography on Portfolio website for Lucksika Chaikul</description>
+    <description>Recent content in Projects and Lifestyle on Portfolio website for Lucksika Chaikul</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 31 Oct 2017 22:27:21 -0500</lastBuildDate>
@@ -12,12 +12,13 @@
     
     
     <item>
-      <title>Aliquam</title>
-      <link>/blogs/aliquam/</link>
-      <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
+      <title>The World Through My Lens, Koh Tao, Thailand</title>
+      <link>/blogs/tempus/</link>
+      <pubDate>Wed, 16 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blogs/aliquam/</guid>
-      <description></description>
+      <guid>/blogs/tempus/</guid>
+      <description>The best diving site so far. Definitely recommend to everyone. You will be able to see wrecks, fish and all sorts of unimaginable things. Exclusive marine life and crystal clear fish. This will make you want for more.
+-Summer 2019-</description>
     </item>
     
     <item>
@@ -26,8 +27,18 @@
       <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>/blogs/blog5/</guid>
-      <description>NYT mask use Github source for data https://github.com/nytimes/covid-19-data/tree/master/mask-use
- Getting the data #Source for data url &amp;lt;- &amp;quot;https://github.com/nytimes/covid-19-data/raw/master/mask-use/mask-use-by-county.csv&amp;quot; nyt_mask_survey &amp;lt;- read_csv(url) nyt_mask_survey &amp;lt;- nyt_mask_survey %&amp;gt;% clean_names() %&amp;gt;% mutate( mostly_yes= frequently+always, mostly_no = never+rarely, delta = mostly_yes-mostly_no ) glimpse(nyt_mask_survey) ## Rows: 3,142 ## Columns: 9 ## $ countyfp &amp;lt;chr&amp;gt; &amp;quot;01001&amp;quot;, &amp;quot;01003&amp;quot;, &amp;quot;01005&amp;quot;, &amp;quot;01007&amp;quot;, &amp;quot;01009&amp;quot;, &amp;quot;01011&amp;quot;, &amp;quot;010… ## $ never &amp;lt;dbl&amp;gt; 0.053, 0.083, 0.067, 0.020, 0.053, 0.031, 0.102, 0.152, 0.… ## $ rarely &amp;lt;dbl&amp;gt; 0.</description>
+      <description>Using a choropleth plot to show the degree of mask acceptance in the US Github source for data https://github.com/nytimes/covid-19-data/tree/master/mask-use
+ Getting the data #Source for data url &amp;lt;- &amp;quot;https://github.com/nytimes/covid-19-data/raw/master/mask-use/mask-use-by-county.csv&amp;quot; #naming the data nyt_mask_survey &amp;lt;- read_csv(url) #cleaning the data and setting up new variables to make the data more understandable nyt_mask_survey &amp;lt;- nyt_mask_survey %&amp;gt;% clean_names() %&amp;gt;% mutate( mostly_yes= frequently+always, mostly_no = never+rarely, delta = mostly_yes-mostly_no ) glimpse(nyt_mask_survey) ## Rows: 3,142 ## Columns: 9 ## $ countyfp &amp;lt;chr&amp;gt; &amp;quot;01001&amp;quot;, &amp;quot;01003&amp;quot;, &amp;quot;01005&amp;quot;, &amp;quot;01007&amp;quot;, &amp;quot;01009&amp;quot;, &amp;quot;01011&amp;quot;, &amp;quot;010… ## $ never &amp;lt;dbl&amp;gt; 0.</description>
+    </item>
+    
+    <item>
+      <title>SAT scores vs. First Year College scores</title>
+      <link>/blogs/blog6/</link>
+      <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/blog6/</guid>
+      <description>Are SAT scores a good indication of success in college library(tidyverse) library(moderndive) library(here) library(GGally) library(broom) # I pre-wrangled and pre-manipulated this data for you # so you only have to load it here sat_gpa &amp;lt;- read_csv(here::here(&amp;quot;data&amp;quot;, &amp;quot;sat_gpa.csv&amp;quot;)) How well do SAT scores correlate with freshman GPA and also when considering sex?
+#Using the GGally package to build a mix of interesting and useful plots and correlations sat_gpa %&amp;gt;% #choosing the data of interest; highschool sat and gpa score and gpa of \nfirst year in college.</description>
     </item>
     
     <item>
@@ -41,12 +52,13 @@
     </item>
     
     <item>
-      <title>Tempus</title>
-      <link>/blogs/tempus/</link>
-      <pubDate>Tue, 31 Oct 2017 22:26:13 -0500</pubDate>
+      <title>The World Through My Lens, Koh Tao, Thailand</title>
+      <link>/blogs/ipsum/</link>
+      <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blogs/tempus/</guid>
-      <description></description>
+      <guid>/blogs/ipsum/</guid>
+      <description>The best diving site so far. Definitely recommend to everyone. You will be able to see wrecks, fish and all sorts of unimaginable things. Exclusive marine life and crystal clear fish. This will make you want for more.
+-Summer 2019-</description>
     </item>
     
     <item>
