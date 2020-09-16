@@ -1,0 +1,122 @@
+---
+title: "Session 4: Homework 2"
+author: "Group 2: Ken Dobson, Fabian Sinn, Carlota Castro Perez, Jieyi Cai, Proud Chaikul, Othman Bensouda"
+date: "2020-09-16"
+output:
+  html_document:
+  theme: flatly
+highlight: zenburn
+number_sections: yes
+toc: yes
+toc_float: yes
+code_folding: show
+---
+
+
+<div id="TOC">
+yes
+</div>
+
+<div id="climate-change-and-temperature-anomalies" class="section level1">
+<h1>1 Climate change and temperature anomalies</h1>
+<p>If we wanted to study climate change, we can find data on the <em>Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies</em> in the Northern Hemisphere at <a href="https://data.giss.nasa.gov/gistemp">NASA’s Goddard Institute for Space Studies</a>. The <a href="https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.txt">tabular data of temperature anomalies can be found here</a></p>
+<p>To define temperature anomalies you need to have a reference, or base, period which NASA clearly states that it is the period between 1951-1980.</p>
+<pre class="r"><code>#selecting the months only
+dates &lt;- weather %&gt;% 
+  select(Year:Dec)
+
+#converting dataframe to &#39;variables&#39;long&#39; format
+tidyweather &lt;- dates %&gt;% 
+  pivot_longer(col = Jan:Dec,
+               names_to= &quot;Month&quot;,
+               values_to = &quot;delta&quot;)
+
+#glimpse(tidyweather)</code></pre>
+<div id="an-increase-in-weather-anomaly-throughout-the-century" class="section level2">
+<h2>1.1 An Increase in Weather Anomaly Throughout the Century</h2>
+<p>Let us plot the data using a time-series scatter plot, and add a trendline. To do that, we first need to create a new variable called <code>date</code> in order to ensure that the <code>delta</code> values are plot chronologically.</p>
+<pre class="r"><code>tidyweather_2 &lt;- tidyweather %&gt;%
+  mutate(date = ymd(paste(as.character(Year), Month, &quot;1&quot;)),
+         month = month(date, label=TRUE),
+         year = year(date))
+
+ggplot(tidyweather_2, aes(x= date, y = delta))+
+  geom_point()+
+  geom_smooth(color=&quot;red&quot;) +
+  theme_bw() +
+  labs (
+    title = &quot;An Increase in Weather Anomaly Throughout the Century&quot;
+  , y = &quot;Temperature Deviation&quot;, x = &quot;Year&quot;)</code></pre>
+<p><img src="/blogs/blog7_files/figure-html/scatter_plot-1.png" width="624" style="display: block; margin: auto;" /></p>
+<blockquote>
+<p>The overall trend indicates that there is an increased level of temperature/weather anomaly throughout time. We suspect that the greenhouse effect on earth could be one of the reasons why the delta value could be rising over time.</p>
+</blockquote>
+</div>
+<div id="every-month-has-a-similar-weather-anomaly-trend" class="section level2">
+<h2>1.2 Every Month has a Similar Weather Anomaly Trend</h2>
+<pre class="r"><code>tidyweather_2$Month = factor(tidyweather_2$Month, levels= c(&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot; ,&quot;Aug&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot; ,&quot;Dec&quot;))
+
+ggplot(tidyweather_2, aes(x=date, y = delta))+
+  geom_point()+
+  geom_smooth(color=&quot;red&quot;) +
+  theme_bw() +
+  facet_wrap(~Month) +
+  labs (
+    title = &quot;Every Month has a Similar Weather Anomaly Trend&quot;, y= &quot;Temperature Deviation&quot;, x= &quot;Month&quot;)</code></pre>
+<p><img src="/blogs/blog7_files/figure-html/facet_wrap-1.png" width="624" style="display: block; margin: auto;" /></p>
+<blockquote>
+<p>Overall, the effect of increasing temperature has a similar trend throughout the months. However, it seems to be the most pronounced in the first quarter of the year (January-March.) It is also evident that in January, February, March and November there is a large variation in the data points as the data is more spread out.</p>
+</blockquote>
+</div>
+<div id="present-day-data-shows-a-bigger-variation-in-temperatureanomalies-than-ever-before" class="section level2">
+<h2>1.3 Present Day Data Shows a Bigger Variation in TemperatureAnomalies Than Ever Before</h2>
+<pre class="r"><code>comparison &lt;- tidyweather %&gt;% 
+  filter(Year&gt;= 1881) %&gt;% 
+  #create new variable &#39;interval&#39;, and assign values based on criteria below:
+  mutate(interval = case_when(
+    Year %in% c(1881:1920) ~ &quot;1881-1920&quot;,
+    Year %in% c(1921:1950) ~ &quot;1921-1950&quot;,
+    Year %in% c(1951:1980) ~ &quot;1951-1980&quot;,
+    Year %in% c(1981:2010) ~ &quot;1981-2010&quot;,
+    TRUE ~ &quot;2011-present&quot;
+  ))</code></pre>
+<pre class="r"><code>ggplot(comparison, aes(x=delta, fill=interval))+
+  geom_density(alpha=0.2) +   #density plot with tranparency set to 20%
+  theme_bw() +                #theme
+  labs ( x=&quot;Temperature Deviation&quot;, title = &quot;Present Day Data Shows a Bigger Variation in Temperature\n Anomalies Than Ever Before&quot;,
+    y     = &quot;Density&quot; 
+  )</code></pre>
+<p><img src="/blogs/blog7_files/figure-html/density_plot-1.png" width="624" style="display: block; margin: auto;" /></p>
+<blockquote>
+<p>Approximately, all of the intervals shown display a normal distribution. As displayed, it is observable that the ‘1981-2010’ and ‘2011-present’ interval are the two intervals with the widest base. This implies that they have the most volatile temperature anomalies. We believe that this could be due to global warming.</p>
+</blockquote>
+</div>
+<div id="steep-increase-of-temperature-deviation-in-the-past-5-decades" class="section level2">
+<h2>1.4 Steep Increase of Temperature Deviation in the Past 5 Decades</h2>
+<pre class="r"><code>#creating yearly averages
+average_annual_anomaly &lt;- tidyweather %&gt;% 
+  group_by(Year) %&gt;%   #grouping data by Year
+  
+  # creating summaries for mean delta 
+  # use `na.rm=TRUE` to eliminate NA (not available) values 
+  summarise(annual_average_delta = mean(delta, na.rm=TRUE)) 
+
+#plotting the data:
+ggplot(average_annual_anomaly, aes(x=Year, y= annual_average_delta))+
+  geom_point()+
+  
+  #Fit the best fit line, using LOESS method
+  geom_smooth() +
+  
+  #change to theme_bw() to have white background + black frame around plot
+  theme_bw() +
+  labs (
+    title = &quot;Steep Increase of Temperature Deviation in the Past 5 Decades&quot;,
+    y     = &quot;Average Annual Temperature Deviation&quot;
+  )                         </code></pre>
+<p><img src="/blogs/blog7_files/figure-html/averaging-1.png" width="624" style="display: block; margin: auto;" /></p>
+<blockquote>
+<p>For the past 50 years, temperature deviation value has been increasing at an alarming rate.</p>
+</blockquote>
+</div>
+</div>

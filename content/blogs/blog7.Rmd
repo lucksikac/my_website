@@ -1,0 +1,185 @@
+---
+title: "Session 4: Homework 2"
+author: "Group 2: Ken Dobson, Fabian Sinn, Carlota Castro Perez, Jieyi Cai, Proud Chaikul, Othman Bensouda"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+  theme: flatly
+highlight: zenburn
+number_sections: yes
+toc: yes
+toc_float: yes
+code_folding: show
+---
+  
+  
+```{r, setup, include = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.5, 
+  fig.height=6.5,
+  fig.align = "center"
+)
+```
+
+
+```{r load-libraries, include=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(httr)
+library(readxl)
+library(vroom)
+library(ggThemeAssist)
+library(knitr)
+library(infer)
+library(kableExtra)
+library(wbstats)
+library(countrycode)
+```
+
+
+# 1 Climate change and temperature anomalies 
+
+If we wanted to study climate change, we can find data on the *Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies* in the Northern Hemisphere at [NASA's Goddard Institute for Space Studies](https://data.giss.nasa.gov/gistemp). The [tabular data of temperature anomalies can be found here](https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.txt)
+
+To define temperature anomalies you need to have a reference, or base, period which NASA clearly states that it is the period between 1951-1980.
+
+```{r weather_data, cache=TRUE, echo=FALSE}
+
+weather <- 
+  read_csv("https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.csv", 
+           skip = 1, 
+           na = "***")
+
+```
+
+
+```{r tidyweather}
+#selecting the months only
+dates <- weather %>% 
+  select(Year:Dec)
+
+#converting dataframe to 'variables'long' format
+tidyweather <- dates %>% 
+  pivot_longer(col = Jan:Dec,
+               names_to= "Month",
+               values_to = "delta")
+
+#glimpse(tidyweather)
+```
+
+
+## 1.1 An Increase in Weather Anomaly Throughout the Century
+
+Let us plot the data using a time-series scatter plot, and add a trendline. To do that, we first need to create a new variable called `date` in order to ensure that the `delta` values are plot chronologically. 
+
+```{r scatter_plot}
+
+tidyweather_2 <- tidyweather %>%
+  mutate(date = ymd(paste(as.character(Year), Month, "1")),
+         month = month(date, label=TRUE),
+         year = year(date))
+
+ggplot(tidyweather_2, aes(x= date, y = delta))+
+  geom_point()+
+  geom_smooth(color="red") +
+  theme_bw() +
+  labs (
+    title = "An Increase in Weather Anomaly Throughout the Century"
+  , y = "Temperature Deviation", x = "Year")
+
+
+```
+
+> The overall trend indicates that there is an increased level of temperature/weather anomaly throughout time. We suspect that the greenhouse effect on earth could be one of the reasons why the delta value could be rising over time.
+
+
+## 1.2 Every Month has a Similar Weather Anomaly Trend
+```{r facet_wrap}
+
+tidyweather_2$Month = factor(tidyweather_2$Month, levels= c("Jan","Feb","Mar","Apr","May", "Jun", "Jul" ,"Aug","Sep","Oct","Nov" ,"Dec"))
+
+ggplot(tidyweather_2, aes(x=date, y = delta))+
+  geom_point()+
+  geom_smooth(color="red") +
+  theme_bw() +
+  facet_wrap(~Month) +
+  labs (
+    title = "Every Month has a Similar Weather Anomaly Trend", y= "Temperature Deviation", x= "Month")
+
+```
+
+> Overall, the effect of increasing temperature has a similar trend throughout the months. However, it seems to be the most pronounced in the first quarter of the year (January-March.) It is also evident that in January, February, March and November there is a large variation in the data points as the data is more spread out.
+
+
+## 1.3 Present Day Data Shows a Bigger Variation in Temperature\n Anomalies Than Ever Before
+
+```{r,intervals}
+
+comparison <- tidyweather %>% 
+  filter(Year>= 1881) %>% 
+  #create new variable 'interval', and assign values based on criteria below:
+  mutate(interval = case_when(
+    Year %in% c(1881:1920) ~ "1881-1920",
+    Year %in% c(1921:1950) ~ "1921-1950",
+    Year %in% c(1951:1980) ~ "1951-1980",
+    Year %in% c(1981:2010) ~ "1981-2010",
+    TRUE ~ "2011-present"
+  ))
+
+```
+```{r, density_plot}
+
+ggplot(comparison, aes(x=delta, fill=interval))+
+  geom_density(alpha=0.2) +   #density plot with tranparency set to 20%
+  theme_bw() +                #theme
+  labs ( x="Temperature Deviation", title = "Present Day Data Shows a Bigger Variation in Temperature\n Anomalies Than Ever Before",
+    y     = "Density" 
+  )
+
+```
+
+> Approximately, all of the intervals shown display a normal distribution. As displayed, it is observable that the '1981-2010' and '2011-present' interval are the two intervals with the widest base. This implies that they have the most volatile temperature anomalies. We believe that this could be due to global warming. 
+
+
+## 1.4 Steep Increase of Temperature Deviation in the Past 5 Decades 
+```{r averaging}
+
+#creating yearly averages
+average_annual_anomaly <- tidyweather %>% 
+  group_by(Year) %>%   #grouping data by Year
+  
+  # creating summaries for mean delta 
+  # use `na.rm=TRUE` to eliminate NA (not available) values 
+  summarise(annual_average_delta = mean(delta, na.rm=TRUE)) 
+
+#plotting the data:
+ggplot(average_annual_anomaly, aes(x=Year, y= annual_average_delta))+
+  geom_point()+
+  
+  #Fit the best fit line, using LOESS method
+  geom_smooth() +
+  
+  #change to theme_bw() to have white background + black frame around plot
+  theme_bw() +
+  labs (
+    title = "Steep Increase of Temperature Deviation in the Past 5 Decades",
+    y     = "Average Annual Temperature Deviation"
+  )                         
+
+
+```
+
+> For the past 50 years, temperature deviation value has been increasing at an alarming rate.
