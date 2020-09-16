@@ -5,7 +5,7 @@ categories:
 date: "2020-09-16"
 description: My Diving Experience in Thailand
 draft: false
-image: pic01.jpg
+image: pic05.jpg
 keywords: ""
 slug: blog3
 title: The World Through My Lens, Koh Tao, Thailand

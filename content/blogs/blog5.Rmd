@@ -5,7 +5,7 @@ categories:
 date: "2020-09-07"
 description: Determining Mask Acceptance in the United States? (NYT Survey Analysis)
 draft: false
-image: pic07.jpg
+image: pic01.jpg
 keywords: ""
 slug: blog5
 title: Mask Acceptance in the United States

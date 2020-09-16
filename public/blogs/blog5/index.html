@@ -76,7 +76,7 @@
                                 <h1>Mask Acceptance in the United States</h1>
                             </header>
                             
-                                <span class="image main"><img src="/img/blogs/pic07.jpg" alt="" /></span>
+                                <span class="image main"><img src="/img/blogs/pic01.jpg" alt="" /></span>
                             
                             
 
@@ -123,44 +123,44 @@ glimpse(nyt_mask_survey)</code></pre>
 # The id field is the FIPS code for the county
 county_map %&gt;% 
   sample_n(5)</code></pre>
-<pre><code>##      long     lat  order  hole piece            group    id
-## 1 2108293   34107 118279 FALSE     1 0500000US36021.1 36021
-## 2  567027   81553 189702 FALSE     1 0500000US55095.1 55095
-## 3 1978262 -482153 172951 FALSE     1 0500000US51099.1 51099
-## 4  207402  427371 128541 FALSE     1 0500000US38067.1 38067
-## 5 2117624 -631614 122693 FALSE     1 0500000US37053.1 37053</code></pre>
+<pre><code>##      long      lat  order  hole piece            group    id
+## 1  363871   269517  91401 FALSE     1 0500000US27029.1 27029
+## 2 1539376  -238524 132352 FALSE     1 0500000US39153.1 39153
+## 3 2091496   203556 120932 FALSE     1 0500000US36115.1 36115
+## 4 2160463  -108112 121208 FALSE     2 0500000US36119.2 36119
+## 5  868408 -1552722  72542 FALSE     1 0500000US22063.1 22063</code></pre>
 <pre class="r"><code>county_data %&gt;%
     sample_n(5)</code></pre>
-<pre><code>##      id             name state census_region      pop_dens   pop_dens4
-## 1 24017   Charles County    MD         South [  100,  500) [118,71672]
-## 2 55078 Menominee County    WI       Midwest [   10,   50) [  0,   17)
-## 3 37137   Pamlico County    NC         South [   10,   50) [ 17,   45)
-## 4 48055  Caldwell County    TX         South [   50,  100) [ 45,  118)
-## 5 21141     Logan County    KY         South [   10,   50) [ 45,  118)
+<pre><code>##      id                 name state census_region      pop_dens   pop_dens4
+## 1 27073 Lac qui Parle County    MN       Midwest [    0,   10) [  0,   17)
+## 2 31117     McPherson County    NE       Midwest [    0,   10) [  0,   17)
+## 3 41027    Hood River County    OR          West [   10,   50) [ 17,   45)
+## 4 48249     Jim Wells County    TX         South [   10,   50) [ 45,  118)
+## 5 25027     Worcester County    MA     Northeast [  500, 1000) [118,71672]
 ##     pop_dens6   pct_black    pop female white black travel_time land_area
-## 1 [215,71672] [25.0,50.0) 154747   51.7  49.1  43.1        42.8       458
-## 2 [  9,   25) [ 0.0, 2.0)   4522   50.9  12.2   0.8        18.1       358
-## 3 [ 25,   45) [15.0,25.0)  12948   48.8  77.0  20.3        24.5       337
-## 4 [ 45,   82) [ 5.0,10.0)  39810   49.5  88.7   7.1        31.4       545
-## 5 [ 45,   82) [ 5.0,10.0)  26867   51.0  90.7   6.8        22.7       552
+## 1 [  9,   25) [ 0.0, 2.0)   6891   50.1  97.7   0.4        16.7       765
+## 2 [  0,    9) [ 0.0, 2.0)    498   50.0  98.3   0.4        27.7       859
+## 3 [ 25,   45) [ 0.0, 2.0)  22885   49.8  94.0   0.7        17.0       522
+## 4 [ 45,   82) [ 0.0, 2.0)  41353   50.6  96.7   0.9        24.2       865
+## 5 [215,71672] [ 5.0,10.0) 813475   50.7  88.0   5.1        27.9      1511
 ##   hh_income su_gun4 su_gun6  fips votes_dem_2016 votes_gop_2016
-## 1     93160 [ 5, 8) [ 4, 7) 24017          46063          24163
-## 2     33333 [ 0, 5) [ 0, 4) 55078           1003            269
-## 3     43853 [ 8,11) [10,12) 37137           2427           4225
-## 4     44152 [ 5, 8) [ 7, 8) 48055           4663           6516
-## 5     36590 [11,54] [10,12) 21141           2755           7778
+## 1     48468 [ 8,11) [ 8,10) 27073           1301           2294
+## 2     54926 [ 0, 5) [ 0, 4) 31117             14            257
+## 3     56725 [ 5, 8) [ 7, 8) 41027           6359           3223
+## 4     40585 [ 5, 8) [ 7, 8) 48249           6688           5411
+## 5     65223 [ 0, 5) [ 0, 4) 25027         197126         157138
 ##   total_votes_2016 per_dem_2016 per_gop_2016 diff_2016 per_dem_2012
-## 1            72480        0.636        0.333     21900        0.650
-## 2             1279        0.784        0.210       734        0.866
-## 3             6772        0.358        0.624      1798        0.392
-## 4            11709        0.398        0.556      1853        0.433
-## 5            10896        0.253        0.714      5023        0.330
+## 1             3835        0.339        0.598       993        0.497
+## 2              286        0.049        0.899       243        0.141
+## 3            10383        0.612        0.310      3136        0.619
+## 4            12346        0.542        0.438      1277        0.582
+## 5           380972        0.517        0.412     39988        0.537
 ##   per_gop_2012 diff_2012  winner partywinner16 winner12 partywinner12 flipped
-## 1        0.337     21984 Clinton      Democrat    Obama      Democrat      No
-## 2        0.130      1012 Clinton      Democrat    Obama      Democrat      No
-## 3        0.601      1400   Trump    Republican   Romney    Republican      No
-## 4        0.544      1231   Trump    Republican   Romney    Republican      No
-## 5        0.656      3430   Trump    Republican   Romney    Republican      No</code></pre>
+## 1        0.488        36   Trump    Republican    Obama      Democrat     Yes
+## 2        0.817       196   Trump    Republican   Romney    Republican      No
+## 3        0.352      2577 Clinton      Democrat    Obama      Democrat      No
+## 4        0.412      1897 Clinton      Democrat    Obama      Democrat      No
+## 5        0.445     33645 Clinton      Democrat    Obama      Democrat      No</code></pre>
 <pre class="r"><code>glimpse(county_data)</code></pre>
 <pre><code>## Rows: 3,195
 ## Columns: 32

@@ -5,7 +5,7 @@ categories:
 date: "2020-09-07"
 description: Do highschool grades predict college success?
 draft: false
-image: pic20.jpg
+image: pic02.jpg
 keywords: ""
 slug: blog6
 title: SAT scores vs. First Year College scores
