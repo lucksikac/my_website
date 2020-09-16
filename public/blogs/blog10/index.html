@@ -1,0 +1,962 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="description" content="A newbie in programming">
+	<meta name="author" content="Lucksika Chaikul">
+	<meta name="generator" content="Hugo 0.74.3" />
+	<title>Analyzing health patterns of young adults &middot; Portfolio website for Lucksika Chaikul</title>
+	<!-- Stylesheets -->
+	
+	<link rel="stylesheet" href="/css/main.css"/>
+	
+	
+
+	
+
+	<!-- Custom Fonts -->
+	<link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+	
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="js/ie/html5shiv.js"></script>
+	<script src="js/ie/html5shiv.jsrespond.min.js"></script>
+	<![endif]-->
+</head>
+
+    <body>
+
+    <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Header -->
+    <header id="header" class="alt">
+        <a href="/" class="logo"><strong>Lucksika&#39;s</strong> <span></span></a>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
+
+<!-- Menu -->
+    <nav id="menu">
+        <ul class="links">
+            
+                <li><a href="/">Main Page</a></li>
+            
+                <li><a href="/blogs">Projects and Lifestyle</a></li>
+            
+                <li><a href="/blogs/blog1">The World Through My Lens: Greece</a></li>
+            
+                <li><a href="/blogs/blog3">The World Through My Lens: Thailand</a></li>
+            
+
+        </ul>
+        <ul class="actions vertical">
+            
+            
+        </ul>
+    </nav>
+
+        <!-- Main -->
+            <div id="main" class="alt">
+
+                
+                    <section id="one">
+                        <div class="inner">
+                            <header class="major">
+                                <h1>Analyzing health patterns of young adults</h1>
+                            </header>
+                            
+                                <span class="image main"><img src="/img/blogs/pic15.jpg" alt="" /></span>
+                            
+                            
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
+
+
+<div id="youth-risk-behavior-surveillance" class="section level1">
+<h1>Youth Risk Behavior Surveillance</h1>
+<p>Every two years, the Centers for Disease Control and Prevention conduct the <a href="https://www.cdc.gov/healthyyouth/data/yrbs/index.htm">Youth Risk Behavior Surveillance System (YRBSS)</a> survey, where it takes data from high schoolers (9th through 12th grade), to analyze health patterns. You will work with a selected group of variables from a random sample of observations during one of the years the YRBSS was conducted.</p>
+<div id="load-the-data" class="section level2">
+<h2>Load the data</h2>
+<pre class="r"><code>data(yrbss)
+glimpse(yrbss)</code></pre>
+<pre><code>## Rows: 13,583
+## Columns: 13
+## $ age                      &lt;int&gt; 14, 14, 15, 15, 15, 15, 15, 14, 15, 15, 15, …
+## $ gender                   &lt;chr&gt; &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;fem…
+## $ grade                    &lt;chr&gt; &quot;9&quot;, &quot;9&quot;, &quot;9&quot;, &quot;9&quot;, &quot;9&quot;, &quot;9&quot;, &quot;9&quot;, &quot;9&quot;, &quot;9&quot;,…
+## $ hispanic                 &lt;chr&gt; &quot;not&quot;, &quot;not&quot;, &quot;hispanic&quot;, &quot;not&quot;, &quot;not&quot;, &quot;not…
+## $ race                     &lt;chr&gt; &quot;Black or African American&quot;, &quot;Black or Afric…
+## $ height                   &lt;dbl&gt; NA, NA, 1.73, 1.60, 1.50, 1.57, 1.65, 1.88, …
+## $ weight                   &lt;dbl&gt; NA, NA, 84.4, 55.8, 46.7, 67.1, 131.5, 71.2,…
+## $ helmet_12m               &lt;chr&gt; &quot;never&quot;, &quot;never&quot;, &quot;never&quot;, &quot;never&quot;, &quot;did not…
+## $ text_while_driving_30d   &lt;chr&gt; &quot;0&quot;, NA, &quot;30&quot;, &quot;0&quot;, &quot;did not drive&quot;, &quot;did no…
+## $ physically_active_7d     &lt;int&gt; 4, 2, 7, 0, 2, 1, 4, 4, 5, 0, 0, 0, 4, 7, 7,…
+## $ hours_tv_per_school_day  &lt;chr&gt; &quot;5+&quot;, &quot;5+&quot;, &quot;5+&quot;, &quot;2&quot;, &quot;3&quot;, &quot;5+&quot;, &quot;5+&quot;, &quot;5+&quot;…
+## $ strength_training_7d     &lt;int&gt; 0, 0, 0, 0, 1, 0, 2, 0, 3, 0, 3, 0, 0, 7, 7,…
+## $ school_night_hours_sleep &lt;chr&gt; &quot;8&quot;, &quot;6&quot;, &quot;&lt;5&quot;, &quot;6&quot;, &quot;9&quot;, &quot;8&quot;, &quot;9&quot;, &quot;6&quot;, &quot;&lt;5…</code></pre>
+</div>
+<div id="exploratory-data-analysis" class="section level2">
+<h2>Exploratory Data Analysis</h2>
+<pre class="r"><code>skim(yrbss)</code></pre>
+<table style='width: auto;'
+        class='table table-condensed'>
+<caption>
+(#tab:eda_on_weight)Data summary
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Name
+</td>
+<td style="text-align:left;">
+yrbss
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of rows
+</td>
+<td style="text-align:left;">
+13583
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of columns
+</td>
+<td style="text-align:left;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+_______________________
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Column type frequency:
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+________________________
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Group variables
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+empty
+</th>
+<th style="text-align:right;">
+n_unique
+</th>
+<th style="text-align:right;">
+whitespace
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+gender
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+grade
+</td>
+<td style="text-align:right;">
+79
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hispanic
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+0.98
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+race
+</td>
+<td style="text-align:right;">
+2805
+</td>
+<td style="text-align:right;">
+0.79
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+helmet_12m
+</td>
+<td style="text-align:right;">
+311
+</td>
+<td style="text-align:right;">
+0.98
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+text_while_driving_30d
+</td>
+<td style="text-align:right;">
+918
+</td>
+<td style="text-align:right;">
+0.93
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hours_tv_per_school_day
+</td>
+<td style="text-align:right;">
+338
+</td>
+<td style="text-align:right;">
+0.98
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+school_night_hours_sleep
+</td>
+<td style="text-align:right;">
+1248
+</td>
+<td style="text-align:right;">
+0.91
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+p0
+</th>
+<th style="text-align:right;">
+p25
+</th>
+<th style="text-align:right;">
+p50
+</th>
+<th style="text-align:right;">
+p75
+</th>
+<th style="text-align:right;">
+p100
+</th>
+<th style="text-align:left;">
+hist
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+age
+</td>
+<td style="text-align:right;">
+77
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+16.16
+</td>
+<td style="text-align:right;">
+1.26
+</td>
+<td style="text-align:right;">
+12.00
+</td>
+<td style="text-align:right;">
+15.0
+</td>
+<td style="text-align:right;">
+16.00
+</td>
+<td style="text-align:right;">
+17.00
+</td>
+<td style="text-align:right;">
+18.00
+</td>
+<td style="text-align:left;">
+▁▂▅▅▇
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+height
+</td>
+<td style="text-align:right;">
+1004
+</td>
+<td style="text-align:right;">
+0.93
+</td>
+<td style="text-align:right;">
+1.69
+</td>
+<td style="text-align:right;">
+0.10
+</td>
+<td style="text-align:right;">
+1.27
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+1.68
+</td>
+<td style="text-align:right;">
+1.78
+</td>
+<td style="text-align:right;">
+2.11
+</td>
+<td style="text-align:left;">
+▁▅▇▃▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+weight
+</td>
+<td style="text-align:right;">
+1004
+</td>
+<td style="text-align:right;">
+0.93
+</td>
+<td style="text-align:right;">
+67.91
+</td>
+<td style="text-align:right;">
+16.90
+</td>
+<td style="text-align:right;">
+29.94
+</td>
+<td style="text-align:right;">
+56.2
+</td>
+<td style="text-align:right;">
+64.41
+</td>
+<td style="text-align:right;">
+76.20
+</td>
+<td style="text-align:right;">
+180.99
+</td>
+<td style="text-align:left;">
+▆▇▂▁▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+physically_active_7d
+</td>
+<td style="text-align:right;">
+273
+</td>
+<td style="text-align:right;">
+0.98
+</td>
+<td style="text-align:right;">
+3.90
+</td>
+<td style="text-align:right;">
+2.56
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+2.0
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+7.00
+</td>
+<td style="text-align:right;">
+7.00
+</td>
+<td style="text-align:left;">
+▆▂▅▃▇
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+strength_training_7d
+</td>
+<td style="text-align:right;">
+1176
+</td>
+<td style="text-align:right;">
+0.91
+</td>
+<td style="text-align:right;">
+2.95
+</td>
+<td style="text-align:right;">
+2.58
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+3.00
+</td>
+<td style="text-align:right;">
+5.00
+</td>
+<td style="text-align:right;">
+7.00
+</td>
+<td style="text-align:left;">
+▇▂▅▂▅
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>#a new variable `physical_3plus`, which will be `yes` if they are physically active for at least 3 days a week, and `no` otherwise
+yrbss1 &lt;- yrbss %&gt;% 
+  mutate(physical_3plus = ifelse(physically_active_7d &gt;= 3, &quot;yes&quot;, &quot;no&quot;))
+
+#count the number of no&#39;s and yes&#39;s and the probability of each one
+yrbss_summary &lt;- yrbss1 %&gt;%
+  filter(!is.na(physical_3plus)) %&gt;%
+  group_by(physical_3plus) %&gt;% 
+  summarise(count = n()) %&gt;% 
+  mutate(prop= count/sum(count))</code></pre>
+<pre class="r"><code>#sum population
+count_pop &lt;- yrbss_summary  %&gt;%  
+  summarise(sum = sum(count))
+#calculating the SE
+se_pop &lt;- sqrt(yrbss_summary$prop[1] * (1-yrbss_summary$prop[1])/count_pop)
+#calculating the mean
+mean_pop &lt;- se_pop/sqrt(count_pop)
+#t-critical value, 95% con
+t_critical &lt;- qt(c(0.025, 0.975), df=count_pop$sum-1)
+lower_ci &lt;- mean_pop - t_critical * se_pop
+upper_ci &lt;- mean_pop + t_critical * se_pop
+
+yrbss_clean &lt;- na.omit(yrbss1)
+bp_physical_3plus &lt;- yrbss_clean %&gt;% 
+  ggplot(aes(x = physical_3plus,y = weight)) + 
+  geom_boxplot() + 
+  labs( x = &quot;Do the students excerise more than 3 times a week?&quot;, y= &quot;Student weight&quot;, title = &quot;Surprisingly, students who excerise often weigh more on average!&quot;) + 
+  coord_flip() + 
+  theme_bw()
+
+bp_physical_3plus</code></pre>
+<p><img src="/blogs/blog10_files/figure-html/boxplot-1.png" width="648" style="display: block; margin: auto;" /></p>
+</div>
+<div id="confidence-interval" class="section level2">
+<h2>Confidence Interval</h2>
+<pre class="r"><code>yrbss_confidence_interval &lt;- yrbss1 %&gt;%
+  group_by(physical_3plus) %&gt;%
+  filter(!is.na(physical_3plus)) %&gt;% 
+  summarise(mean_weight = mean(weight, na.rm = TRUE), #na.rm = TRUE removes all the NA values
+            sd_weight = sd(weight, na.rm=TRUE),
+            count = n(),
+            se_weight = sd_weight/sqrt(count),
+            t_critical = qt(c(0.025, 0.975), df=count_pop$sum-1), 
+            margin_of_error = t_critical * se_weight,
+            lower = mean_weight - margin_of_error,
+            upper = mean_weight + margin_of_error
+            )
+
+yrbss_confidence_interval %&gt;%
+  kbl(col.names = c(&quot;Does student exercise 3 times a week or not?&quot;, &quot;Mean Weight&quot;, &quot;Stand Deviation of Weight&quot;, &quot;Count&quot;, &quot;Standard Error of Weight&quot;,&quot;T value&quot;, &quot;Margin of Error&quot;, &quot;Lower CI&quot;, &quot;Upper CI&quot;)) %&gt;%
+  kable_material(c(&quot;striped&quot;, &quot;hover&quot;)) %&gt;%
+  kable_styling(fixed_thead = T, full_width = FALSE)</code></pre>
+<table class=" lightable-material lightable-striped lightable-hover table" style='font-family: "Source Sans Pro", helvetica, sans-serif; margin-left: auto; margin-right: auto; width: auto !important; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Does student exercise 3 times a week or not?
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Mean Weight
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Stand Deviation of Weight
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Count
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Standard Error of Weight
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+T value
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Margin of Error
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Lower CI
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Upper CI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+no
+</td>
+<td style="text-align:right;">
+66.7
+</td>
+<td style="text-align:right;">
+17.6
+</td>
+<td style="text-align:right;">
+4404
+</td>
+<td style="text-align:right;">
+0.266
+</td>
+<td style="text-align:right;">
+-1.96
+</td>
+<td style="text-align:right;">
+-0.521
+</td>
+<td style="text-align:right;">
+67.2
+</td>
+<td style="text-align:right;">
+66.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+no
+</td>
+<td style="text-align:right;">
+66.7
+</td>
+<td style="text-align:right;">
+17.6
+</td>
+<td style="text-align:right;">
+4404
+</td>
+<td style="text-align:right;">
+0.266
+</td>
+<td style="text-align:right;">
+1.96
+</td>
+<td style="text-align:right;">
+0.521
+</td>
+<td style="text-align:right;">
+66.2
+</td>
+<td style="text-align:right;">
+67.2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+yes
+</td>
+<td style="text-align:right;">
+68.4
+</td>
+<td style="text-align:right;">
+16.5
+</td>
+<td style="text-align:right;">
+8906
+</td>
+<td style="text-align:right;">
+0.175
+</td>
+<td style="text-align:right;">
+-1.96
+</td>
+<td style="text-align:right;">
+-0.342
+</td>
+<td style="text-align:right;">
+68.8
+</td>
+<td style="text-align:right;">
+68.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+yes
+</td>
+<td style="text-align:right;">
+68.4
+</td>
+<td style="text-align:right;">
+16.5
+</td>
+<td style="text-align:right;">
+8906
+</td>
+<td style="text-align:right;">
+0.175
+</td>
+<td style="text-align:right;">
+1.96
+</td>
+<td style="text-align:right;">
+0.342
+</td>
+<td style="text-align:right;">
+68.1
+</td>
+<td style="text-align:right;">
+68.8
+</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>There is an observed difference of about 1.77kg (68.4 - 66.7), and we notice that the two confidence intervals do not overlap. It seems that the difference is at least 95% statistically significant.</p>
+</blockquote>
+</div>
+<div id="hypothesis-test-with-formula" class="section level2">
+<h2>Hypothesis test with formula</h2>
+<p>Write the null and alternative hypotheses for testing whether mean weights are different for those who exercise at least times a week and those who don’t.</p>
+<pre class="r"><code>#The null and alternative hypothesis for testing whether mean weights are different for those who exercise at least three times a week and those who don&#39;t
+
+t.test(weight ~ physical_3plus, data = yrbss1)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  weight by physical_3plus
+## t = -5, df = 7479, p-value = 9e-08
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -2.42 -1.12
+## sample estimates:
+##  mean in group no mean in group yes 
+##              66.7              68.4</code></pre>
+</div>
+<div id="hypothesis-test-with-infer" class="section level2">
+<h2>Hypothesis test with <code>infer</code></h2>
+<p>Next, we will introduce a new function, <code>hypothesize</code>, that falls into the infer workflow. You will use this method for conducting hypothesis tests.</p>
+<p>But first, we need to initialize the test, which we will save as <code>obs_diff</code>.</p>
+<pre class="r"><code>obs_diff &lt;- yrbss1 %&gt;%
+  specify(weight ~ physical_3plus) %&gt;%
+  calculate(stat = &quot;diff in means&quot;, order = c(&quot;yes&quot;, &quot;no&quot;))</code></pre>
+<pre class="r"><code>null_dist &lt;- yrbss1 %&gt;%
+  specify(weight ~ physical_3plus) %&gt;%
+  hypothesize(null = &quot;independence&quot;) %&gt;%
+  generate(reps = 1000, type = &quot;permute&quot;) %&gt;% #permute to quantify the null distribution
+  calculate(stat = &quot;diff in means&quot;, order = c(&quot;yes&quot;, &quot;no&quot;))</code></pre>
+<pre class="r"><code>ggplot(data = null_dist, aes(x = stat)) +
+  geom_histogram() +labs(x= &quot;Difference between two population means (weight &amp; frequency of exercise (&gt;3 times per week))&quot;, title = &quot;Null hypothesis as a test for independence between weight and frequency\n of exercise demonstrates a normal distribution&quot;) +theme_bw()</code></pre>
+<p><img src="/blogs/blog10_files/figure-html/unnamed-chunk-7-1.png" width="648" style="display: block; margin: auto;" />
+&gt; A visualisation of the null distribution shows a normal distribution.</p>
+<pre class="r"><code>null_dist %&gt;% visualize() +
+  shade_p_value(obs_stat = obs_diff, direction = &quot;two-sided&quot;) + theme_bw()</code></pre>
+<p><img src="/blogs/blog10_files/figure-html/unnamed-chunk-8-1.png" width="648" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>null_dist %&gt;%
+  get_p_value(obs_stat = obs_diff, direction = &quot;two_sided&quot;)</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   p_value
+##     &lt;dbl&gt;
+## 1       0</code></pre>
+<blockquote>
+<p>With an approximate p-value of 0, we would be rejecting the null hypothesis. This implies that there is a difference between the two population means, ie weight of student and the frequency of physical exercise.</p>
+</blockquote>
+</div>
+</div>
+
+                        </div>
+                    </section>
+            <!-- Disqus Inject -->
+                
+            </div>
+            
+        <!-- Footer -->
+            
+                <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
+            <ul class="icons">
+                
+                    <li><a href="https://www.facebook.com/proud.chaikul/" class="icon alt fa-facebook" target="_blank"><span class="label">Facebook</span></a></li>
+                
+                    <li><a href="https://www.instagram.com/prouddchaikul/" class="icon alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+                
+                    <li><a href="https://github.com/lucksikac/my_website" class="icon alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+                
+                    <li><a href="https://www.linkedin.com/in/proud-lucksika-chaikul-099baa192/" class="icon alt fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+                
+            </ul>
+            <ul class="copyright">
+                <li>&copy;  lucksika.chaikul</li>
+                
+            </ul>
+        </div>
+    </footer>
+
+            
+        </div>
+
+    <!-- Scripts -->
+        <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+
+    
+
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+
+    
+
+    
+
+    </body>
+</html>

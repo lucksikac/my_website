@@ -1,0 +1,181 @@
+---
+categories:
+- ""
+- ""
+date: "2020-09-07"
+description: Youth Behaviour on Exercise 
+draft: false
+image: pic15.jpg
+keywords: ""
+slug: blog10
+title: Analyzing health patterns of young adults
+---
+
+
+```{r, setup, echo=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+
+```{r load-libraries, echo=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(GGally)
+library(readxl)
+library(here)
+library(skimr)
+library(janitor)
+library(broom)
+library(tidyquant)
+library(infer)
+library(openintro)
+library(kableExtra)
+```
+
+
+# Youth Risk Behavior Surveillance
+
+Every two years, the Centers for Disease Control and Prevention conduct the [Youth Risk Behavior Surveillance System (YRBSS)](https://www.cdc.gov/healthyyouth/data/yrbs/index.htm) survey, where it takes data from high schoolers (9th through 12th grade), to analyze health patterns. You will work with a selected group of variables from a random sample of observations during one of the years the YRBSS was conducted.
+
+## Load the data
+
+```{r}
+data(yrbss)
+glimpse(yrbss)
+```
+
+
+## Exploratory Data Analysis
+
+```{r, eda_on_weight}
+skim(yrbss)
+```
+
+```{r}
+
+#a new variable `physical_3plus`, which will be `yes` if they are physically active for at least 3 days a week, and `no` otherwise
+yrbss1 <- yrbss %>% 
+  mutate(physical_3plus = ifelse(physically_active_7d >= 3, "yes", "no"))
+
+#count the number of no's and yes's and the probability of each one
+yrbss_summary <- yrbss1 %>%
+  filter(!is.na(physical_3plus)) %>%
+  group_by(physical_3plus) %>% 
+  summarise(count = n()) %>% 
+  mutate(prop= count/sum(count))
+
+```
+
+```{r, boxplot}
+#sum population
+count_pop <- yrbss_summary  %>%  
+  summarise(sum = sum(count))
+#calculating the SE
+se_pop <- sqrt(yrbss_summary$prop[1] * (1-yrbss_summary$prop[1])/count_pop)
+#calculating the mean
+mean_pop <- se_pop/sqrt(count_pop)
+#t-critical value, 95% con
+t_critical <- qt(c(0.025, 0.975), df=count_pop$sum-1)
+lower_ci <- mean_pop - t_critical * se_pop
+upper_ci <- mean_pop + t_critical * se_pop
+
+yrbss_clean <- na.omit(yrbss1)
+bp_physical_3plus <- yrbss_clean %>% 
+  ggplot(aes(x = physical_3plus,y = weight)) + 
+  geom_boxplot() + 
+  labs( x = "Do the students excerise more than 3 times a week?", y= "Student weight", title = "Surprisingly, students who excerise often weigh more on average!") + 
+  coord_flip() + 
+  theme_bw()
+
+bp_physical_3plus
+
+```
+
+
+## Confidence Interval
+
+```{r}
+yrbss_confidence_interval <- yrbss1 %>%
+  group_by(physical_3plus) %>%
+  filter(!is.na(physical_3plus)) %>% 
+  summarise(mean_weight = mean(weight, na.rm = TRUE), #na.rm = TRUE removes all the NA values
+            sd_weight = sd(weight, na.rm=TRUE),
+            count = n(),
+            se_weight = sd_weight/sqrt(count),
+            t_critical = qt(c(0.025, 0.975), df=count_pop$sum-1), 
+            margin_of_error = t_critical * se_weight,
+            lower = mean_weight - margin_of_error,
+            upper = mean_weight + margin_of_error
+            )
+
+yrbss_confidence_interval %>%
+  kbl(col.names = c("Does student exercise 3 times a week or not?", "Mean Weight", "Stand Deviation of Weight", "Count", "Standard Error of Weight","T value", "Margin of Error", "Lower CI", "Upper CI")) %>%
+  kable_material(c("striped", "hover")) %>%
+  kable_styling(fixed_thead = T, full_width = FALSE)
+```
+> There is an observed difference of about 1.77kg (68.4 - 66.7), and we notice that the two confidence intervals do not overlap. It seems that the difference is at least 95% statistically significant.
+
+
+## Hypothesis test with formula
+
+Write the null and alternative hypotheses for testing whether mean weights are different for those who exercise at least times a week and those who don’t.
+
+```{r}
+
+#The null and alternative hypothesis for testing whether mean weights are different for those who exercise at least three times a week and those who don't
+
+t.test(weight ~ physical_3plus, data = yrbss1)
+```
+
+## Hypothesis test with `infer`
+
+Next, we will introduce a new function, `hypothesize`, that falls into the infer workflow. You will use this method for conducting hypothesis tests.
+
+But first, we need to initialize the test, which we will save as `obs_diff`.
+
+```{r}
+obs_diff <- yrbss1 %>%
+  specify(weight ~ physical_3plus) %>%
+  calculate(stat = "diff in means", order = c("yes", "no"))
+
+```
+
+```{r}
+null_dist <- yrbss1 %>%
+  specify(weight ~ physical_3plus) %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>% #permute to quantify the null distribution
+  calculate(stat = "diff in means", order = c("yes", "no"))
+
+```
+
+```{r}
+ggplot(data = null_dist, aes(x = stat)) +
+  geom_histogram() +labs(x= "Difference between two population means (weight & frequency of exercise (>3 times per week))", title = "Null hypothesis as a test for independence between weight and frequency\n of exercise demonstrates a normal distribution") +theme_bw()
+```
+> A visualisation of the null distribution shows a normal distribution. 
+
+
+```{r}
+
+null_dist %>% visualize() +
+  shade_p_value(obs_stat = obs_diff, direction = "two-sided") + theme_bw()
+
+null_dist %>%
+  get_p_value(obs_stat = obs_diff, direction = "two_sided")
+
+```
+> With an approximate p-value of 0, we would be rejecting the null hypothesis. This implies that there is a difference between the two population means, ie weight of student and the frequency of physical exercise. 

@@ -111,16 +111,16 @@ disqusShortname = ""
       url = "blogs/blog7"
 
     [[params.tiles.showcase]]
-      title = "The World Through My Lens"
-      subtitle = "Diving at Corfu, Greece"
-      image = "pic10.jpg"
-      url = "blogs/blog1"
+      title = "How does physical activity affect weight?"
+      subtitle = "Data source from CDC survey"
+      image = "pic15.jpg"
+      url = "blogs/blog10"
 
-    #[[params.tiles.showcase]]
-     # title = "The World Through My Lens"
-     # subtitle = "Diving at Koh Tao, Thailand"
-     #image = "pic05.jpg"
-      #url = "blogs/aliquam"
+    [[params.tiles.showcase]]
+     title = "The World Through My Lens"
+     subtitle = "Diving at Corfu, Greece"
+     image = "pic10.jpg"
+     url = "blogs/blog1"
 
     [[params.tiles.showcase]]
       title = "The World Through My Lens"
