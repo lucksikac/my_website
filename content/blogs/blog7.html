@@ -1,26 +1,24 @@
 ---
-title: "Session 4: Homework 2"
-author: "Group 2: Ken Dobson, Fabian Sinn, Carlota Castro Perez, Jieyi Cai, Proud Chaikul, Othman Bensouda"
-date: "2020-09-16"
-output:
-  html_document:
-  theme: flatly
-highlight: zenburn
-number_sections: yes
-toc: yes
-toc_float: yes
-code_folding: show
+categories:
+- ""
+- ""
+date: "2020-09-07"
+description: Climate Change and Temperature Anomalies
+draft: false
+image: pic30.jpg
+keywords: ""
+slug: blog7
+title: Uncovering the effects of climate change on world temperature
 ---
 
 
-<div id="TOC">
-yes
-</div>
 
 <div id="climate-change-and-temperature-anomalies" class="section level1">
-<h1>1 Climate change and temperature anomalies</h1>
-<p>If we wanted to study climate change, we can find data on the <em>Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies</em> in the Northern Hemisphere at <a href="https://data.giss.nasa.gov/gistemp">NASA’s Goddard Institute for Space Studies</a>. The <a href="https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.txt">tabular data of temperature anomalies can be found here</a></p>
-<p>To define temperature anomalies you need to have a reference, or base, period which NASA clearly states that it is the period between 1951-1980.</p>
+<h1>Climate change and temperature anomalies</h1>
+<p>Data obtained:
+- Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies in the Northern Hemisphere at NASA’s Goddard Institute for Space Studies (<a href="https://data.giss.nasa.gov/gistemp" class="uri">https://data.giss.nasa.gov/gistemp</a>).
+- Tabular data of temperature anomalies (<a href="https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.txt" class="uri">https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.txt</a>)</p>
+<p>Temperature anomalies reference, or base, period is the period between 1951-1980.</p>
 <pre class="r"><code>#selecting the months only
 dates &lt;- weather %&gt;% 
   select(Year:Dec)
@@ -31,15 +29,21 @@ tidyweather &lt;- dates %&gt;%
                names_to= &quot;Month&quot;,
                values_to = &quot;delta&quot;)
 
-#glimpse(tidyweather)</code></pre>
+glimpse(tidyweather)</code></pre>
+<pre><code>## Rows: 1,680
+## Columns: 3
+## $ Year  &lt;dbl&gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 188…
+## $ Month &lt;chr&gt; &quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, …
+## $ delta &lt;dbl&gt; -0.54, -0.38, -0.26, -0.37, -0.11, -0.22, -0.23, -0.24, -0.26, …</code></pre>
 <div id="an-increase-in-weather-anomaly-throughout-the-century" class="section level2">
-<h2>1.1 An Increase in Weather Anomaly Throughout the Century</h2>
-<p>Let us plot the data using a time-series scatter plot, and add a trendline. To do that, we first need to create a new variable called <code>date</code> in order to ensure that the <code>delta</code> values are plot chronologically.</p>
-<pre class="r"><code>tidyweather_2 &lt;- tidyweather %&gt;%
+<h2>An Increase in Weather Anomaly Throughout the Century</h2>
+<pre class="r"><code>#creating new variables to ensure that delta values are plot chronologically
+tidyweather_2 &lt;- tidyweather %&gt;%
   mutate(date = ymd(paste(as.character(Year), Month, &quot;1&quot;)),
          month = month(date, label=TRUE),
          year = year(date))
 
+#Plotting the data using a time-series scatter plot, and add a trend line
 ggplot(tidyweather_2, aes(x= date, y = delta))+
   geom_point()+
   geom_smooth(color=&quot;red&quot;) +
@@ -53,9 +57,11 @@ ggplot(tidyweather_2, aes(x= date, y = delta))+
 </blockquote>
 </div>
 <div id="every-month-has-a-similar-weather-anomaly-trend" class="section level2">
-<h2>1.2 Every Month has a Similar Weather Anomaly Trend</h2>
-<pre class="r"><code>tidyweather_2$Month = factor(tidyweather_2$Month, levels= c(&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot; ,&quot;Aug&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot; ,&quot;Dec&quot;))
+<h2>Every Month has a Similar Weather Anomaly Trend</h2>
+<pre class="r"><code>#ordering the month, to make reading the data set in plot easier to read
+tidyweather_2$Month = factor(tidyweather_2$Month, levels= c(&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot; ,&quot;Aug&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot; ,&quot;Dec&quot;))
 
+#creating a scatterplot and line of best fit with geomsmooth
 ggplot(tidyweather_2, aes(x=date, y = delta))+
   geom_point()+
   geom_smooth(color=&quot;red&quot;) +
@@ -69,7 +75,7 @@ ggplot(tidyweather_2, aes(x=date, y = delta))+
 </blockquote>
 </div>
 <div id="present-day-data-shows-a-bigger-variation-in-temperatureanomalies-than-ever-before" class="section level2">
-<h2>1.3 Present Day Data Shows a Bigger Variation in TemperatureAnomalies Than Ever Before</h2>
+<h2>Present Day Data Shows a Bigger Variation in TemperatureAnomalies Than Ever Before</h2>
 <pre class="r"><code>comparison &lt;- tidyweather %&gt;% 
   filter(Year&gt;= 1881) %&gt;% 
   #create new variable &#39;interval&#39;, and assign values based on criteria below:
@@ -80,7 +86,8 @@ ggplot(tidyweather_2, aes(x=date, y = delta))+
     Year %in% c(1981:2010) ~ &quot;1981-2010&quot;,
     TRUE ~ &quot;2011-present&quot;
   ))</code></pre>
-<pre class="r"><code>ggplot(comparison, aes(x=delta, fill=interval))+
+<pre class="r"><code>#creating a density plot
+ggplot(comparison, aes(x=delta, fill=interval))+
   geom_density(alpha=0.2) +   #density plot with tranparency set to 20%
   theme_bw() +                #theme
   labs ( x=&quot;Temperature Deviation&quot;, title = &quot;Present Day Data Shows a Bigger Variation in Temperature\n Anomalies Than Ever Before&quot;,
@@ -92,7 +99,7 @@ ggplot(tidyweather_2, aes(x=date, y = delta))+
 </blockquote>
 </div>
 <div id="steep-increase-of-temperature-deviation-in-the-past-5-decades" class="section level2">
-<h2>1.4 Steep Increase of Temperature Deviation in the Past 5 Decades</h2>
+<h2>Steep Increase of Temperature Deviation in the Past 5 Decades</h2>
 <pre class="r"><code>#creating yearly averages
 average_annual_anomaly &lt;- tidyweather %&gt;% 
   group_by(Year) %&gt;%   #grouping data by Year

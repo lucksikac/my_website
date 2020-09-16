@@ -12,21 +12,11 @@
     
     
     <item>
-      <title>Session 4: Homework 2</title>
-      <link>/blogs/blog7/</link>
-      <pubDate>Wed, 16 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/blogs/blog7/</guid>
-      <description>yes  1 Climate change and temperature anomalies If we wanted to study climate change, we can find data on the Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies in the Northern Hemisphere at NASA’s Goddard Institute for Space Studies. The tabular data of temperature anomalies can be found here
-To define temperature anomalies you need to have a reference, or base, period which NASA clearly states that it is the period between 1951-1980.</description>
-    </item>
-    
-    <item>
       <title>The World Through My Lens, Koh Tao, Thailand</title>
-      <link>/blogs/tempus/</link>
+      <link>/blogs/blog3/</link>
       <pubDate>Wed, 16 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blogs/tempus/</guid>
+      <guid>/blogs/blog3/</guid>
       <description>The best diving site so far. Definitely recommend to everyone. You will be able to see wrecks, fish and all sorts of unimaginable things. Exclusive marine life and crystal clear fish. This will make you want for more.
 -Summer 2019-</description>
     </item>
@@ -53,10 +43,10 @@ To define temperature anomalies you need to have a reference, or base, period wh
     
     <item>
       <title>The World Through My Lens, Greece Diving Site</title>
-      <link>/blogs/ipsum/</link>
+      <link>/blogs/blog1/</link>
       <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blogs/ipsum/</guid>
+      <guid>/blogs/blog1/</guid>
       <description>An underwater archway diving trip at Paleokastritsa, Corfu, Greece. It hosts numerous rock alleyways and caves for diving enthusiasts to explore the natural scenery created by volcanic eruptions in the past. I would definitely recommend this diving site for those who seek for challenging divings as you would have to balance yourself very carefully to go through each cave and alleyway.
 -Summer 2018-</description>
     </item>
@@ -72,12 +62,14 @@ To define temperature anomalies you need to have a reference, or base, period wh
     </item>
     
     <item>
-      <title>Magna</title>
-      <link>/blogs/magna/</link>
-      <pubDate>Tue, 31 Oct 2017 22:26:09 -0500</pubDate>
+      <title>Uncovering the effects of climate change on world temperature</title>
+      <link>/blogs/blog7/</link>
+      <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blogs/magna/</guid>
-      <description></description>
+      <guid>/blogs/blog7/</guid>
+      <description>Climate change and temperature anomalies Data obtained: - Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies in the Northern Hemisphere at NASA’s Goddard Institute for Space Studies (https://data.giss.nasa.gov/gistemp). - Tabular data of temperature anomalies (https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.txt)
+Temperature anomalies reference, or base, period is the period between 1951-1980.
+#selecting the months only dates &amp;lt;- weather %&amp;gt;% select(Year:Dec) #converting dataframe to &amp;#39;variables&amp;#39;long&amp;#39; format tidyweather &amp;lt;- dates %&amp;gt;% pivot_longer(col = Jan:Dec, names_to= &amp;quot;Month&amp;quot;, values_to = &amp;quot;delta&amp;quot;) glimpse(tidyweather) ## Rows: 1,680 ## Columns: 3 ## $ Year &amp;lt;dbl&amp;gt; 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 1880, 188… ## $ Month &amp;lt;chr&amp;gt; &amp;quot;Jan&amp;quot;, &amp;quot;Feb&amp;quot;, &amp;quot;Mar&amp;quot;, &amp;quot;Apr&amp;quot;, &amp;quot;May&amp;quot;, &amp;quot;Jun&amp;quot;, &amp;quot;Jul&amp;quot;, &amp;quot;Aug&amp;quot;, &amp;quot;Sep&amp;quot;, … ## $ delta &amp;lt;dbl&amp;gt; -0.</description>
     </item>
     
   </channel>

@@ -53,11 +53,11 @@ disqusShortname = ""
 
     [[params.navigation.links]]
       name = "The World Through My Lens: Greece"
-      url = "blogs/ipsum"
+      url = "blogs/blog1"
 
     [[params.navigation.links]]
      name = "The World Through My Lens: Thailand"
-     url = "blogs/tempus"
+     url = "blogs/blog3"
 
     # Add custom links here by uncommenting code below. To remove links just delete
     # the [[params.navigation.links]] map associated with that link. Copy and paste
@@ -114,7 +114,7 @@ disqusShortname = ""
       title = "The World Through My Lens"
       subtitle = "Diving at Corfu, Greece"
       image = "pic10.jpg"
-      url = "blogs/ipsum"
+      url = "blogs/blog1"
 
     #[[params.tiles.showcase]]
      # title = "The World Through My Lens"
@@ -126,7 +126,7 @@ disqusShortname = ""
       title = "The World Through My Lens"
       subtitle = "Diving at Koh Tao, Thailand"
       image = "pic05.jpg"
-      url = "blogs/tempus"
+      url = "blogs/blog3"
     # You can make more showcases by copy and pasting the code above
 
   [params.blog]

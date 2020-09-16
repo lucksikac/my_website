@@ -7,7 +7,7 @@ description: My Diving Experience in Greece
 draft: false
 image: pic10.jpg
 keywords: ""
-slug: ipsum
+slug: blog1
 title: The World Through My Lens, Greece Diving Site
 ---
 

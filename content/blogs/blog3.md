@@ -7,7 +7,7 @@ description: My Diving Experience in Thailand
 draft: false
 image: pic01.jpg
 keywords: ""
-slug: tempus
+slug: blog3
 title: The World Through My Lens, Koh Tao, Thailand
 ---
 
